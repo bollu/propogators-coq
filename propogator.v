@@ -1,4 +1,4 @@
-Module JoinSemiLattice.
+Module Type JoinSemiLattice.
   Variable T: Type.
   Variable join: T -> T -> T.
   Variable bottom : T.
@@ -19,8 +19,6 @@ Module JoinSemiLattice.
       bottom <+> t = t.
 
   Axiom top_absorbent: forall (t: T),
-      top <+> t = t.
-      
-      
-      
+      top <+> t = top.
 End JoinSemiLattice.
+
