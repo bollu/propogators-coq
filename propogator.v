@@ -58,7 +58,12 @@ Module Datalog.  Variable K: Type.  Variable T: Type.
     https://medium.com/@raphlinus/towards-a-unified-theory-of-operational-transformation-and-crdt-70485876f72f
 
     Darcs, theory of patches:
-    https://en.wikibooks.org/wiki/Understanding_Darcs/Patch_theory *)
+    https://en.wikibooks.org/wiki/Understanding_Darcs/Patch_theory
+
+   CRDTs show us how to distribute propogators over the network,
+   and allows us to exploit CAP.
+
+ *)
 
 (* Next, LVish / Par monad:
 http://hackage.haskell.org/package/monad-par
@@ -154,7 +159,8 @@ We add guesses, and see what happens.  *)
 
 A propogator which has *all* of its values right below Top is
 done/satisfied/cannot gain more information. So, we can use this to
-"stop watching" such a propogator.
+"stop watching" such a propogator. (1-watch literal on a propogator, and
+just stop watching). This is some kind of GC for propogators.
 
 *)
 
@@ -163,6 +169,41 @@ done/satisfied/cannot gain more information. So, we can use this to
 
 
 
+(*
+Finite domain solving: AC3
+https://en.wikipedia.org/wiki/AC-3_algorithm
 
+Arc consistency - constraint solving algorithm, covered in Peter Norvig.
+
+We want to rule out things that can be assigned.
+
+eg.
+x ∈ [1..9]
+y ∈ [1..9]
+x  < y
+
+This immediately tells us that:
+¬ (x < 9), ¬ (y < 1)
+
+Later on, if we learn that (x = 3), then we know that
+y ∈ [4, 9]
+ *)
+
+(*
+Linear programming / simplex:
+- Solution is at a vertex, so we can jump between vertices
+- Interior point methods as well, that start from the inside and move up a potential
+  to find the vertex.
+- We can cut away regions that do not matter, with respect to a
+  lattice of regions all of which preserves a point.
+- LP as a valid propogator problem? (I do not understand this )
+
+- ILP as LP + gomory cuts. We can view the ILP style gomory cut
+technique as a propogator problem? (still slightly unclear to me), I
+assume we can look at it as something that happens in the Par context.
+We can do MILP + finite domain / constraint solving on the _same_
+variables?  This is huge if true.
+
+ *)
 
 
